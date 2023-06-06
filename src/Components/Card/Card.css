@@ -1,4 +1,4 @@
-.card {
+/* .card {
   width: 300px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -41,4 +41,13 @@ button {
   background-color: #ccc;
   border: none;
   border-radius: 4px;
+} */
+
+.card-container {
+  background-color: #fff;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 0.375rem;
 }
