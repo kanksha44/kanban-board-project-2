@@ -1,15 +1,12 @@
 import "./Board.css";
-import Nav from "../Navbar/Nav";
-import Card from "../Card/Card";
+import List from "../List/List";
 
 const Board = () => {
   return (
     <div className="board-container">
-      <Nav />
+      {/* will show filter component here */}
       <div className="adding-card">
-        <Card />
-        <Card />
-        <Card />
+        <List />
       </div>
     </div>
   );
