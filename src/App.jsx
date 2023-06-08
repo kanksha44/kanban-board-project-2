@@ -1,19 +1,22 @@
 import Board from "./Components/Board/Board";
-// import Description from "./Components/Description/Description";
+import Description from "./Components/Description/Description";
 import Navbar from "./Components/Navbar/Nav";
 import store from "./store";
 import { Provider } from "react-redux";
 
 const App = () => {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
+    // <div>
+    //   <Navbar/>
+    //   <div className="main-board-container">
+    //   <Board />
+    //   </div>
+    // </div>
+    // </Provider>
     <div>
-      <Navbar/>
-      <div className="main-board-container">
-      <Board />
-      </div>
+      <Description/>
     </div>
-    </Provider>
   );
 };
 

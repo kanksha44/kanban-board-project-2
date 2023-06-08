@@ -43,9 +43,9 @@ const Description = () => {
   };
 
   const handleShow = () => {
-    setCardTitle(editedCardTitle);
     setShow(show === "Show details" ? "Hide details" : "Show details");
-  };
+};
+
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);

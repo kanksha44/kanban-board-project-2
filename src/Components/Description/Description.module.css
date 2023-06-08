@@ -115,6 +115,7 @@ text-align: start;
     background-color: rgb(204, 204, 204);
     margin-right: 45px;
     border-radius: 5px;
+    text-align: center;
 }
 .comment{
     display: flex;
