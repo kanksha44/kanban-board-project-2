@@ -18,12 +18,32 @@ const Description = () => {
   const [comments, setComments] = useState([]);
   const [currentComment, setCurrentComment] = useState("");
   const [editingCommentIndex, setEditingCommentIndex] = useState(null);
+  const [cardTitle, setCardTitle] = useState("card1");
+  const [isEditingCardTitle, setIsEditingCardTitle] = useState(false);
+  const [editedCardTitle, setEditedCardTitle] = useState("");
+
+  const handleCardTitleClick = () => {
+    setIsEditingCardTitle(true);
+    setEditedCardTitle(cardTitle);
+  };
+
+  const handleCardTitleChange = (event) => {
+    setEditedCardTitle(event.target.value);
+  };
+
+  const handleSaveCardTitle = () => {
+    if (editedCardTitle.trim() !== "") {
+      setCardTitle(editedCardTitle);
+    }
+    setIsEditingCardTitle(false);
+  };
 
   const handleWatch = () => {
     setWatch(watch === "Watch" ? "Watching" : "Watch");
   };
 
   const handleShow = () => {
+    setCardTitle(editedCardTitle);
     setShow(show === "Show details" ? "Hide details" : "Show details");
   };
 
@@ -42,22 +62,32 @@ const Description = () => {
   };
 
   const handleAddComment = () => {
-    setComments([...comments, currentComment]);
+    const timestamp = new Date().toLocaleString();
+    const newComment = {
+      content: currentComment,
+      user: "User",
+      timestamp: timestamp,
+    };
+
+    setComments([...comments, newComment]);
     setCurrentComment("");
   };
-
   const handleEditComment = (index) => {
     setEditingCommentIndex(index);
-    setCurrentComment(comments[index]);
+    setCurrentComment(comments[index].content);
   };
+  
 
   const handleSaveComment = () => {
-    const updatedComments = [...comments];
-    updatedComments[editingCommentIndex] = currentComment;
-    setComments(updatedComments);
+    if (currentComment.trim() !== "") {
+      const updatedComments = [...comments];
+      updatedComments[editingCommentIndex].content = currentComment;
+      setComments(updatedComments);
+    }
     setEditingCommentIndex(null);
     setCurrentComment("");
   };
+  
 
   const handleDeleteComment = (index) => {
     const updatedComments = comments.filter((_, i) => i !== index);
@@ -80,8 +110,24 @@ const Description = () => {
           <div className={styles.icon}>
             <LaptopChromebookIcon className={styles.laptop} />
             <div className={styles.cardname}>
-              <h3>card1</h3>
-              in list todo
+              {isEditingCardTitle ? (
+                <input
+                  type="text"
+                  value={editedCardTitle}
+                  onChange={handleCardTitleChange}
+                  onBlur={handleSaveCardTitle}
+                  autoFocus
+                />
+              ) : (
+                <h3 onClick={handleCardTitleClick}>{cardTitle}</h3>
+              )}
+              <div className={styles.listname}>
+              <p>in list todo</p>
+              {watch === "Watching" && (
+                <VisibilityIcon  />
+              )}
+              </div>
+              
             </div>
           </div>
           <CloseIcon className={styles.close} />
@@ -91,7 +137,9 @@ const Description = () => {
           <div className={styles.eyeblock} onClick={handleWatch}>
             <VisibilityIcon className={styles.eye} />
             <h3>{watch}</h3>
-            {watch === "Watching" && <CheckBoxIcon className={styles.checkbox} />}
+            {watch === "Watching" && (
+              <CheckBoxIcon className={styles.checkbox} />
+            )}
           </div>
         </div>
         <div className={styles.speaker}>
@@ -143,42 +191,51 @@ const Description = () => {
           <p onClick={handleShow}>{show}</p>
         </div>
         <div className={styles.comment}>
-      <PersonIcon className={styles.person} />
-      <TextField
-        id="outlined-multiline-flexible"
-        placeholder="Write a comment..."
-        multiline
-        maxRows={10}
-        className={styles.commentbox}
-        value={currentComment}
-        onChange={handleCommentChange}
-      />
-      {editingCommentIndex === null ? (
-        <button onClick={handleAddComment} disabled={!currentComment.trim()}>
-          Add Comment
-        </button>
-      ) : currentComment.trim() !== "" ? (
-        <button onClick={handleSaveComment}>Save</button>
-      ) : (
-        <button onClick={handleDiscardChanges}>Discard Changes</button>
-      )}
-    </div>
-
-    <div className={styles.commentsList}>
-      {comments.map((comment, index) => (
-        <div key={index} className={styles.commentItem}>
-          <p>{comment}</p>
-          <button onClick={() => handleEditComment(index)}>Edit</button>
-          <button onClick={() => handleDeleteComment(index)}>Delete</button>
+          <PersonIcon className={styles.person} />
+          <TextField
+            id="outlined-multiline-flexible"
+            placeholder="Write a comment..."
+            multiline
+            maxRows={10}
+            className={styles.commentbox}
+            value={currentComment}
+            onChange={handleCommentChange}
+          />
+          {editingCommentIndex === null ? (
+            <button
+              onClick={handleAddComment}
+              disabled={!currentComment.trim()}
+            >
+              Add Comment
+            </button>
+          ) : currentComment.trim() !== "" ? (
+            <button onClick={handleSaveComment}>Save</button>
+          ) : (
+            <button onClick={handleDiscardChanges}>Discard Changes</button>
+          )}
         </div>
-      ))}
-    </div>
+
+        <div className={styles.commentsList}>
+          {comments.map((comment, index) => (
+            <div key={index} className={styles.commentItem}>
+              <div className={styles.commentHeader}>
+                <PersonIcon className={styles.person} />
+                <span className={styles.userName}>{comment.user}</span>
+                <span className={styles.timestamp}>{comment.timestamp}</span>
+              </div>
+              <p>{comment.content}</p>
+              <div className={styles.commentActions}>
+                <button onClick={() => handleEditComment(index)}>Edit</button>
+                <button onClick={() => handleDeleteComment(index)}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default Description;
-
-
-

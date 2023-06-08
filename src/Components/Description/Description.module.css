@@ -127,3 +127,9 @@ text-align: start;
 .commentbox{
     width: 575px;
 }
+.listname{
+    display: flex;
+}
+.listname p{
+    margin-right: 25px;
+}
