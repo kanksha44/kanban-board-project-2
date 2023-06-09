@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import listSlice from "./listSlice";
+
 const store = configureStore({
   reducer: {
-    listSlice: listSlice,
-  },
+    listSlice: listSlice
+  }
 });
+
 export default store;

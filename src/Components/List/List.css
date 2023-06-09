@@ -21,4 +21,6 @@
 .list-add {
   padding: 0.75rem;
   background-color: #e5e7eb;
+  border-radius: 5px;
+  height: 2.5rem;
 }
