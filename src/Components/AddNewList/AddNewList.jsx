@@ -6,21 +6,28 @@ const AddNewList = ({ type, parentId }) => {
   const [inputVal, setInputVal] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  // console.log("type", type);
-
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
 
+    if (!inputVal.trim()) {
+      // Empty name, do not add list or card
+      return;
+    }
+
     if (type) {
       dispatch(
-        addCard({ id: Math.random(), title: inputVal, parentId: parentId })
+        addCard({
+          id: Math.random(),
+          title: inputVal.trim(),
+          parentId: parentId
+        })
       );
     } else {
-      dispatch(addList({ id: Math.random(), title: inputVal }));
+      dispatch(addList({ id: Math.random(), title: inputVal.trim() }));
     }
-    // console.log("inputVal", inputVal);
+
     hideForm();
     setInputVal("");
   };
@@ -28,9 +35,11 @@ const AddNewList = ({ type, parentId }) => {
   const updateInput = (e) => {
     setInputVal(e.target.value);
   };
+
   const openForm = () => {
     setIsFormVisible(true);
   };
+
   const hideForm = () => {
     setIsFormVisible(false);
   };

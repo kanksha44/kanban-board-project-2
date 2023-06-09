@@ -80,7 +80,7 @@ const Description = () => {
           <div className={styles.icon}>
             <LaptopChromebookIcon className={styles.laptop} />
             <div className={styles.cardname}>
-              <h3>card1</h3>
+              <h3>{cardInfo.title}</h3>
               in list todo
             </div>
           </div>
