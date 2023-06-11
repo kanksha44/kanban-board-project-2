@@ -148,7 +148,7 @@ function App() {
     setSelectedBackgroundImage(backgroundImages[nextIndex]);
   };
 
-  
+
 
   useEffect(() => {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
@@ -169,6 +169,7 @@ function App() {
       style={{ backgroundImage: `url(${selectedBackgroundImage})` }}
     >
       <div className="app_nav">
+
         <Button variant="text">Kanban Board</Button>
         {showStar ? (
           <Button onClick={toggleShowStar}>
@@ -231,4 +232,6 @@ function App() {
   );
 }
 
+
 export default App;
+
