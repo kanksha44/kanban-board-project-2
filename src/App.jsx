@@ -10,8 +10,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import "./App.css";
 import Editable from "./Components/Editable/Editable";
 
+const backgroundImages = [
+  "https://images.pexels.com/photos/960137/pexels-photo-960137.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  // Add more image URLs
+];
+
 function App() {
-  const [showPopup, setShowPopup] = useState(false);
+ 
   const [showStar, setShowStar] = useState(true);
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("prac-kanban")) || []
@@ -22,7 +29,14 @@ function App() {
     cid: "",
   });
 
+  const [selectedBackgroundImage, setSelectedBackgroundImage] = useState(
+    backgroundImages[0]
+  );
+
   const addboardHandler = (name) => {
+    if(name.trim()===""){
+      return;
+    }
     const tempBoards = [...boards];
     tempBoards.push({
       id: Date.now() + Math.random() * 2,
@@ -42,28 +56,25 @@ function App() {
   };
 
   const addCardHandler = (id, title) => {
-    if (title!= "") {
-      setShowPopup(true);
-    } else {
-      const index = boards.findIndex((item) => item.id === id);
-      if (index < 0) return;
-
-      const tempBoards = [...boards];
-      tempBoards[index].cards.push({
-        id: Date.now() + Math.random() * 2,
-        title,
-        labels: [],
-        date: "",
-        tasks: [],
-      });
-      setBoards(tempBoards);
+    if (title.trim()===""){
+      return;
     }
-  };
+    const index = boards.findIndex((item) => item.id === id);
+    if (index < 0) return;
 
-  const closePopup = () => {
-    setShowPopup(false);
+    const tempBoards = [...boards];
+    tempBoards[index].cards.push({
+      id: Date.now() + Math.random() * 2,
+      title,
+      labels: [],
+      date: "",
+      tasks: [],
+    });
+    setBoards(tempBoards);
   };
+  
 
+ 
   const removeCard = (bid, cid) => {
     const index = boards.findIndex((item) => item.id === bid);
     if (index < 0) return;
@@ -131,6 +142,14 @@ function App() {
     setBoards(tempBoards);
   };
 
+  const changeBackgroundHandler = () => {
+    const currentIndex = backgroundImages.indexOf(selectedBackgroundImage);
+    const nextIndex = (currentIndex + 1) % backgroundImages.length;
+    setSelectedBackgroundImage(backgroundImages[nextIndex]);
+  };
+
+  
+
   useEffect(() => {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
   }, [boards]);
@@ -145,7 +164,10 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div
+      className="app"
+      style={{ backgroundImage: `url(${selectedBackgroundImage})` }}
+    >
       <div className="app_nav">
         <Button variant="text">Kanban Board</Button>
         {showStar ? (
@@ -160,7 +182,7 @@ function App() {
         <Button variant="text" startIcon={<HomeIcon />}>
           Home
         </Button>
-        <Button variant="contained" startIcon={<AddPhotoAlternateIcon />}>
+        <Button  onClick={changeBackgroundHandler} variant="contained" startIcon={<AddPhotoAlternateIcon />}>
           Change Background
         </Button>
         <Button
@@ -202,9 +224,9 @@ function App() {
           </div>
         </div>
       </div>
-      <Dialog open={showPopup} onClose={closePopup}>
+      {/* <Dialog open={showPopup} onClose={closePopup}>
         <DialogTitle>Please Enter a Task</DialogTitle>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }

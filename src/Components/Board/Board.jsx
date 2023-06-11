@@ -1,8 +1,8 @@
 import { useState } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import Popover from "@mui/material/Popover";
 
 import Card from "../Card/Card";
-import Dropdown from "../Dropdown/Dropdown";
 import Editable from "../Editable/Editable";
 
 import PropTypes from "prop-types";
@@ -10,7 +10,31 @@ import PropTypes from "prop-types";
 import "./Board.css";
 
 function Board(props) {
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const popoverId = open ? "popover-board" : undefined;
+
+  const removeBoardHandler = () => {
+    props.removeBoard(props.board.id);
+    handleClose();
+  };
+
+  const addCardHandler = (title) => {
+    if (title.trim() === "") {
+      return;
+    }
+
+    props.addCard(props.board.id, title);
+  };
 
   return (
     <div className="board">
@@ -19,20 +43,27 @@ function Board(props) {
           {props.board?.title}
           <span>{props.board?.cards?.length || 0}</span>
         </p>
-        <div
-          className="board_header_title_more"
-          onClick={() => setShowDropdown(true)}
-        >
-          <MoreHorizIcon />
+        <div className="board_header_title_more">
+          <MoreHorizIcon onClick={handleClick} />
 
-          {showDropdown && (
-            <Dropdown
-              class="board_dropdown"
-              onClose={() => setShowDropdown(false)}
-            >
-              <p onClick={() => props.removeBoard()}>Delete Board</p>
-            </Dropdown>
-          )}
+          <Popover
+            id={popoverId}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <div className="board_popover_content">
+              <p onClick={removeBoardHandler}>Delete Board</p>
+            </div>
+          </Popover>
         </div>
       </div>
       <div className="board_cards custom-scroll">
@@ -52,54 +83,29 @@ function Board(props) {
           placeholder="Enter Card Title"
           displayClass="board_add-card"
           editClass="board_add-card_edit"
-          onSubmit={(value) => props.addCard(props.board?.id, value)}
+          onSubmit={addCardHandler}
         />
       </div>
     </div>
   );
 }
 
-// Board.propTypes = {
-//   addCard:PropTypes.func,
-//   removeBoard: PropTypes.func,
-//   removeCard: PropTypes.func,
-//   dragEntered: PropTypes.func,
-//   dragEnded: PropTypes.func,
-//   updateCard: PropTypes.func,
-// };
-
 Board.propTypes = {
-  addCard: PropTypes.func,
+  addCard: PropTypes.func.isRequired,
   board: PropTypes.shape({
-    id: PropTypes.number.isRequired, // Add prop validation for board.id as a required number
-    title: PropTypes.string.isRequired, // Add prop validation for board.title as a required string
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
     cards: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
       })
     ),
   }),
-  removeBoard: PropTypes.func,
-  removeCard: PropTypes.func,
-  dragEntered: PropTypes.func,
-  dragEnded: PropTypes.func,
-  updateCard: PropTypes.func,
+  removeBoard: PropTypes.func.isRequired,
+  removeCard: PropTypes.func.isRequired,
+  dragEntered: PropTypes.func.isRequired,
+  dragEnded: PropTypes.func.isRequired,
+  updateCard: PropTypes.func.isRequired,
 };
 
 export default Board;
-
-// import "./Board.css";
-// import List from "../List/List";
-
-// const Board = () => {
-//   return (
-//     <div className="board-container">
-//       {/* will show filter component here */}
-//       <div className="adding-card">
-//         <List />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Board;
