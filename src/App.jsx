@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Dialog, DialogTitle } from "@mui/material";
+import { Avatar, Button, Dialog, DialogTitle } from "@mui/material";
+// import {
+//   Button,
+//   Dialog,
+//   DialogTitle,
+//   DialogContent,
+//   DialogActions,
+// } from "@mui/material";
+
 import Board from "./Components/Board/Board";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -14,12 +22,17 @@ const backgroundImages = [
   "https://images.pexels.com/photos/960137/pexels-photo-960137.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  // Add more image URLs
+  "https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/2649403/pexels-photo-2649403.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/2909077/pexels-photo-2909077.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/1379636/pexels-photo-1379636.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/2563129/pexels-photo-2563129.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/409696/pexels-photo-409696.jpeg?auto=compress&cs=tinysrgb&w=1572",
 ];
 
 function App() {
- 
   const [showStar, setShowStar] = useState(true);
+  // const [showPopup, setShowPopup] = useState(false);
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("prac-kanban")) || []
   );
@@ -33,8 +46,18 @@ function App() {
     backgroundImages[0]
   );
 
+  // const openPopup = () => {
+  //   setShowPopup(true);
+  // };
+
+  // const closePopup = () => {
+  //   setShowPopup(false);
+  // };
+
   const addboardHandler = (name) => {
-    if(name.trim()===""){
+    if (name.trim() === "") {
+      // openPopup();
+
       return;
     }
     const tempBoards = [...boards];
@@ -56,8 +79,14 @@ function App() {
   };
 
   const addCardHandler = (id, title) => {
-    if (title.trim()===""){
+    if (title.trim() === "") {
+      alert("Please enter a valid input"); // Show alert for empty input
+
       return;
+
+      //   <Dialog open={showPopup} onClose={closePopup}>
+      //   <DialogTitle>Please Enter a Task</DialogTitle>
+      // </Dialog>
     }
     const index = boards.findIndex((item) => item.id === id);
     if (index < 0) return;
@@ -72,9 +101,7 @@ function App() {
     });
     setBoards(tempBoards);
   };
-  
 
- 
   const removeCard = (bid, cid) => {
     const index = boards.findIndex((item) => item.id === bid);
     if (index < 0) return;
@@ -148,8 +175,6 @@ function App() {
     setSelectedBackgroundImage(backgroundImages[nextIndex]);
   };
 
-
-
   useEffect(() => {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
   }, [boards]);
@@ -169,35 +194,43 @@ function App() {
       style={{ backgroundImage: `url(${selectedBackgroundImage})` }}
     >
       <div className="app_nav">
-
-        <Button variant="text">Kanban Board</Button>
-        {showStar ? (
-          <Button onClick={toggleShowStar}>
-            <StarBorderIcon />
+        <div className="logo">
+          <Button variant="text">Kanban Board</Button>
+          {showStar ? (
+            <Button onClick={toggleShowStar}>
+              <StarBorderIcon />
+            </Button>
+          ) : (
+            <Button onClick={toggleShowStar}>
+              <StarIcon />
+            </Button>
+          )}
+        </div>
+        <div className="customoptions">
+          <Button variant="text" startIcon={<HomeIcon />}>
+            Home
           </Button>
-        ) : (
-          <Button onClick={toggleShowStar}>
-            <StarIcon />
+          <Button
+            onClick={changeBackgroundHandler}
+            variant="contained"
+            startIcon={<AddPhotoAlternateIcon />}
+            style={{ backgroundColor: "#403e3e" }}
+          >
+            Change Background
           </Button>
-        )}
-        <Button variant="text" startIcon={<HomeIcon />}>
-          Home
-        </Button>
-        <Button  onClick={changeBackgroundHandler} variant="contained" startIcon={<AddPhotoAlternateIcon />}>
-          Change Background
-        </Button>
-        <Button
-          variant="text"
-          onClick={handleClearBoard}
-          startIcon={<BoltIcon />}
-        >
-          Clear Board
-        </Button>
-        <Button variant="text" startIcon={<MoreHorizOutlinedIcon />} />
-        <img
-          src="https://picsum.photos/id/237/80/80"
-          alt="profile"
-        />
+          <Button
+            variant="text"
+            onClick={handleClearBoard}
+            startIcon={<BoltIcon />}
+          >
+            Clear Board
+          </Button>
+          <Button variant="text" startIcon={<MoreHorizOutlinedIcon />} />
+        </div>
+        <div className="profile">
+          {/* <img src="./assets/user.png" alt="profile" /> */}
+          <Avatar src="./assets/download.jpg" />
+        </div>
       </div>
       <div className="app_boards_container">
         <div className="app_boards">
@@ -228,10 +261,18 @@ function App() {
       {/* <Dialog open={showPopup} onClose={closePopup}>
         <DialogTitle>Please Enter a Task</DialogTitle>
       </Dialog> */}
+
+      {/* <Dialog open={showPopup} onClose={closePopup}>
+        
+        <DialogContent>
+          <p>Please enter a valid input.</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closePopup}>OK</Button>
+        </DialogActions>
+      </Dialog> */}
     </div>
   );
 }
 
-
 export default App;
-
