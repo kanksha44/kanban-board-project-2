@@ -5,6 +5,13 @@ import Board from "./Components/Board/Board";
 import "./App.css";
 import Editable from "./Components/Editable/Editable";
 
+const backgroundImages = [
+  "https://images.pexels.com/photos/960137/pexels-photo-960137.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  // Add more image URLs
+];
+
 function App() {
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("prac-kanban")) || []
@@ -14,6 +21,10 @@ function App() {
     bid: "",
     cid: "",
   });
+
+  const [selectedBackgroundImage, setSelectedBackgroundImage] = useState(
+    backgroundImages[0]
+  );
 
   const addboardHandler = (name) => {
     const tempBoards = [...boards];
@@ -116,21 +127,30 @@ function App() {
     setBoards(tempBoards);
   };
 
+  const changeBackgroundHandler = () => {
+    const currentIndex = backgroundImages.indexOf(selectedBackgroundImage);
+    const nextIndex = (currentIndex + 1) % backgroundImages.length;
+    setSelectedBackgroundImage(backgroundImages[nextIndex]);
+  };
+
+  const clearBoard = () => {
+    setBoards([]);
+  };
+
   useEffect(() => {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
   }, [boards]);
 
   return (
-    <div className="app">
+    <div
+      className="app"
+      style={{ backgroundImage: `url(${selectedBackgroundImage})` }}
+    >
       <div className="app_nav">
         <span>Kanban Board</span>
-        <button>Change Background</button>
-        <button>Clear Board</button>
-        <img
-          src="https://picsum.photos/id/237/80/80
-"
-          alt="profile"
-        />
+        <button onClick={changeBackgroundHandler}>Change Background</button>
+        <button onClick={clearBoard}>Clear Board</button>
+        <img src="https://picsum.photos/id/237/80/80" alt="profile" />
       </div>
       <div className="app_boards_container">
         <div className="app_boards">
@@ -163,24 +183,3 @@ function App() {
 }
 
 export default App;
-
-// import Board from "./Components/Board/Board";
-// import Description from "./Components/Description/Description";
-// import Nav from "./Components/Navbar/Nav";
-// import store from "./store";
-// import { Provider } from "react-redux";
-
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//       <div>
-//         <Nav />
-//         <div className="main-board-container">
-//           <Board />
-//         </div>
-//       </div>
-//     </Provider>
-//   );
-// };
-
-// export default App;
