@@ -35,13 +35,13 @@
   transform: translateX(15px);
   flex: 1;
   cursor: pointer;
-  opacity: 0;
+  /* opacity: 0; */
   transition: 200ms;
 }
 
-.card:hover .card_top_more {
+/* .card:hover .card_top_more {
   opacity: 1;
-}
+} */
 
 .card_title {
   flex: 1;

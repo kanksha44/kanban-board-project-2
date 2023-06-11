@@ -38,6 +38,8 @@ function Board(props) {
 
   return (
     <div className="board">
+    <div className="board-wrapper">
+
       <div className="board_header">
         <p className="board_header_title">
           {props.board?.title}
@@ -85,6 +87,7 @@ function Board(props) {
           editClass="board_add-card_edit"
           onSubmit={addCardHandler}
         />
+      </div>
       </div>
     </div>
   );
