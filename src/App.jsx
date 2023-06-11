@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-
+import { Button, Dialog, DialogTitle } from "@mui/material";
 import Board from "./Components/Board/Board";
-
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import BoltIcon from "@mui/icons-material/Bolt";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import HomeIcon from "@mui/icons-material/Home";
 import "./App.css";
 import Editable from "./Components/Editable/Editable";
 
@@ -13,6 +18,8 @@ const backgroundImages = [
 ];
 
 function App() {
+ 
+  const [showStar, setShowStar] = useState(true);
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("prac-kanban")) || []
   );
@@ -27,6 +34,9 @@ function App() {
   );
 
   const addboardHandler = (name) => {
+    if(name.trim()===""){
+      return;
+    }
     const tempBoards = [...boards];
     tempBoards.push({
       id: Date.now() + Math.random() * 2,
@@ -46,6 +56,9 @@ function App() {
   };
 
   const addCardHandler = (id, title) => {
+    if (title.trim()===""){
+      return;
+    }
     const index = boards.findIndex((item) => item.id === id);
     if (index < 0) return;
 
@@ -59,7 +72,9 @@ function App() {
     });
     setBoards(tempBoards);
   };
+  
 
+ 
   const removeCard = (bid, cid) => {
     const index = boards.findIndex((item) => item.id === bid);
     if (index < 0) return;
@@ -133,13 +148,20 @@ function App() {
     setSelectedBackgroundImage(backgroundImages[nextIndex]);
   };
 
-  const clearBoard = () => {
-    setBoards([]);
-  };
+
 
   useEffect(() => {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
   }, [boards]);
+
+  function toggleShowStar() {
+    setShowStar((prevShowStar) => !prevShowStar);
+  }
+
+  function handleClearBoard() {
+    localStorage.removeItem("prac-kanban");
+    setBoards([]);
+  }
 
   return (
     <div
@@ -147,10 +169,35 @@ function App() {
       style={{ backgroundImage: `url(${selectedBackgroundImage})` }}
     >
       <div className="app_nav">
-        <span>Kanban Board</span>
-        <button onClick={changeBackgroundHandler}>Change Background</button>
-        <button onClick={clearBoard}>Clear Board</button>
-        <img src="https://picsum.photos/id/237/80/80" alt="profile" />
+
+        <Button variant="text">Kanban Board</Button>
+        {showStar ? (
+          <Button onClick={toggleShowStar}>
+            <StarBorderIcon />
+          </Button>
+        ) : (
+          <Button onClick={toggleShowStar}>
+            <StarIcon />
+          </Button>
+        )}
+        <Button variant="text" startIcon={<HomeIcon />}>
+          Home
+        </Button>
+        <Button  onClick={changeBackgroundHandler} variant="contained" startIcon={<AddPhotoAlternateIcon />}>
+          Change Background
+        </Button>
+        <Button
+          variant="text"
+          onClick={handleClearBoard}
+          startIcon={<BoltIcon />}
+        >
+          Clear Board
+        </Button>
+        <Button variant="text" startIcon={<MoreHorizOutlinedIcon />} />
+        <img
+          src="https://picsum.photos/id/237/80/80"
+          alt="profile"
+        />
       </div>
       <div className="app_boards_container">
         <div className="app_boards">
@@ -178,8 +225,13 @@ function App() {
           </div>
         </div>
       </div>
+      {/* <Dialog open={showPopup} onClose={closePopup}>
+        <DialogTitle>Please Enter a Task</DialogTitle>
+      </Dialog> */}
     </div>
   );
 }
 
+
 export default App;
+
