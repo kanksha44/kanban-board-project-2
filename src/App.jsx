@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
-
+import { Button, Dialog, DialogTitle } from "@mui/material";
 import Board from "./Components/Board/Board";
-
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import BoltIcon from "@mui/icons-material/Bolt";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import HomeIcon from "@mui/icons-material/Home";
 import "./App.css";
 import Editable from "./Components/Editable/Editable";
 
 function App() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [showStar, setShowStar] = useState(true);
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("prac-kanban")) || []
   );
@@ -35,18 +42,26 @@ function App() {
   };
 
   const addCardHandler = (id, title) => {
-    const index = boards.findIndex((item) => item.id === id);
-    if (index < 0) return;
+    if (title!= "") {
+      setShowPopup(true);
+    } else {
+      const index = boards.findIndex((item) => item.id === id);
+      if (index < 0) return;
 
-    const tempBoards = [...boards];
-    tempBoards[index].cards.push({
-      id: Date.now() + Math.random() * 2,
-      title,
-      labels: [],
-      date: "",
-      tasks: [],
-    });
-    setBoards(tempBoards);
+      const tempBoards = [...boards];
+      tempBoards[index].cards.push({
+        id: Date.now() + Math.random() * 2,
+        title,
+        labels: [],
+        date: "",
+        tasks: [],
+      });
+      setBoards(tempBoards);
+    }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
   };
 
   const removeCard = (bid, cid) => {
@@ -120,15 +135,44 @@ function App() {
     localStorage.setItem("prac-kanban", JSON.stringify(boards));
   }, [boards]);
 
+  function toggleShowStar() {
+    setShowStar((prevShowStar) => !prevShowStar);
+  }
+
+  function handleClearBoard() {
+    localStorage.removeItem("prac-kanban");
+    setBoards([]);
+  }
+
   return (
     <div className="app">
       <div className="app_nav">
-        <span>Kanban Board</span>
-        <button>Change Background</button>
-        <button>Clear Board</button>
+        <Button variant="text">Kanban Board</Button>
+        {showStar ? (
+          <Button onClick={toggleShowStar}>
+            <StarBorderIcon />
+          </Button>
+        ) : (
+          <Button onClick={toggleShowStar}>
+            <StarIcon />
+          </Button>
+        )}
+        <Button variant="text" startIcon={<HomeIcon />}>
+          Home
+        </Button>
+        <Button variant="contained" startIcon={<AddPhotoAlternateIcon />}>
+          Change Background
+        </Button>
+        <Button
+          variant="text"
+          onClick={handleClearBoard}
+          startIcon={<BoltIcon />}
+        >
+          Clear Board
+        </Button>
+        <Button variant="text" startIcon={<MoreHorizOutlinedIcon />} />
         <img
-          src="https://picsum.photos/id/237/80/80
-"
+          src="https://picsum.photos/id/237/80/80"
           alt="profile"
         />
       </div>
@@ -158,29 +202,11 @@ function App() {
           </div>
         </div>
       </div>
+      <Dialog open={showPopup} onClose={closePopup}>
+        <DialogTitle>Please Enter a Task</DialogTitle>
+      </Dialog>
     </div>
   );
 }
 
 export default App;
-
-// import Board from "./Components/Board/Board";
-// import Description from "./Components/Description/Description";
-// import Nav from "./Components/Navbar/Nav";
-// import store from "./store";
-// import { Provider } from "react-redux";
-
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//       <div>
-//         <Nav />
-//         <div className="main-board-container">
-//           <Board />
-//         </div>
-//       </div>
-//     </Provider>
-//   );
-// };
-
-// export default App;
