@@ -85,6 +85,9 @@
   align-items: center;
   flex-basis: 40%;
 }
+.customoptions button {
+  font-size: 0.8rem;
+}
 .app_nav button {
   color: white;
 }
