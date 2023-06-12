@@ -82,6 +82,9 @@
   padding: 9px;
   cursor: pointer;
 }
+.dustbin {
+  margin: 0.5rem 0.75rem;
+}
 
 /* .board-container {
  
