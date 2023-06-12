@@ -83,6 +83,17 @@
   cursor: pointer;
 }
 
+.dltbtn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: red;
+  font-size: large;
+}
+
+.dltbtn:hover {
+  background-color: whitesmoke;
+}
 /* .board-container {
  
   height: 100%;

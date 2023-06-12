@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Popover from "@mui/material/Popover";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import Card from "../Card/Card";
 import Editable from "../Editable/Editable";
 
@@ -63,7 +63,7 @@ function Board(props) {
             }}
           >
             <div className="board_popover_content">
-              <p onClick={removeBoardHandler}>Delete Board</p>
+              <button onClick={removeBoardHandler} className="dltbtn"> <DeleteIcon /> </button>
             </div>
           </Popover>
         </div>
