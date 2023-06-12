@@ -1,5 +1,5 @@
 # kanban-board-project-2
-kanban-board - deploy link
+kanban-board - https://kanban-board-project2.netlify.app/
 
 # Kanban Board
 
