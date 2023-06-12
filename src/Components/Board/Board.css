@@ -86,6 +86,17 @@
   margin: 0.5rem 0.75rem;
 }
 
+.dltbtn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: red;
+  font-size: large;
+}
+
+.dltbtn:hover {
+  background-color: whitesmoke;
+}
 /* .board-container {
  
   height: 100%;

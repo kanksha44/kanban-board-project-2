@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { CheckSquare, Clock, MoreHorizontal } from "react-feather";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dropdown from "../Dropdown/Dropdown";
 
 import "./Card.css";
 import CardInfo from "./CardInfo/CardInfo";
+import { Button } from "@mui/material";
 
 function Card(props) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -76,7 +77,7 @@ function Card(props) {
                 onClose={() => setShowDropdown(false)}
               >
                 <p onClick={() => props.removeCard(props.boardId, id)}>
-                  Delete Card
+              <button > <DeleteIcon /> </button> 
                 </p>
               </Dropdown>
             )}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Popover from "@mui/material/Popover";
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import Card from "../Card/Card";
 import Editable from "../Editable/Editable";
 
@@ -47,6 +47,34 @@ function Board(props) {
           <div className="board_header_title_more">
             <DeleteOutlineIcon className="dustbin" onClick={handleClick} />
 
+
+      <div className="board_header">
+        <p className="board_header_title">
+          {props.board?.title}
+          <span>{props.board?.cards?.length || 0}</span>
+        </p>
+        <div className="board_header_title_more">
+          <MoreHorizIcon onClick={handleClick} />
+
+          <Popover
+            id={popoverId}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <div className="board_popover_content">
+              <button onClick={removeBoardHandler} className="dltbtn"> <DeleteIcon /> </button>
+            </div>
+          </Popover>
+
             <Popover
               id={popoverId}
               open={open}
@@ -66,6 +94,7 @@ function Board(props) {
               </div>
             </Popover>
           </div>
+
         </div>
         <div className="board_cards custom-scroll">
           {props.board?.cards?.map((item) => (
