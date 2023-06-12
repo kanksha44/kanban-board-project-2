@@ -207,14 +207,26 @@ function App() {
           )}
         </div>
         <div className="customoptions">
-          <Button variant="text" startIcon={<HomeIcon />}>
+          <Button
+            variant="text"
+            startIcon={<HomeIcon />}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
+          >
             Home
           </Button>
           <Button
             onClick={changeBackgroundHandler}
             variant="contained"
             startIcon={<AddPhotoAlternateIcon />}
-            style={{ backgroundColor: "#403e3e" }}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
           >
             Change Background
           </Button>
@@ -222,6 +234,11 @@ function App() {
             variant="text"
             onClick={handleClearBoard}
             startIcon={<BoltIcon />}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
           >
             Clear Board
           </Button>
@@ -252,7 +269,7 @@ function App() {
               editClass="app_boards_add-board_edit"
               placeholder="Enter Board Name"
               text="Add Board"
-              buttonText="Add Board"
+              buttonText="Add List"
               onSubmit={addboardHandler}
             />
           </div>
