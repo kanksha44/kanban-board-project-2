@@ -19,15 +19,15 @@ import "./App.css";
 import Editable from "./Components/Editable/Editable";
 
 const backgroundImages = [
+  "https://images.pexels.com/photos/2649403/pexels-photo-2649403.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/2563129/pexels-photo-2563129.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/409696/pexels-photo-409696.jpeg?auto=compress&cs=tinysrgb&w=1572",
+  "https://images.pexels.com/photos/1379636/pexels-photo-1379636.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/960137/pexels-photo-960137.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/259915/pexels-photo-259915.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  "https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  "https://images.pexels.com/photos/2649403/pexels-photo-2649403.jpeg?auto=compress&cs=tinysrgb&w=1572",
   "https://images.pexels.com/photos/2909077/pexels-photo-2909077.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  "https://images.pexels.com/photos/1379636/pexels-photo-1379636.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  "https://images.pexels.com/photos/2563129/pexels-photo-2563129.jpeg?auto=compress&cs=tinysrgb&w=1572",
-  "https://images.pexels.com/photos/409696/pexels-photo-409696.jpeg?auto=compress&cs=tinysrgb&w=1572",
 ];
 
 function App() {
@@ -207,14 +207,26 @@ function App() {
           )}
         </div>
         <div className="customoptions">
-          <Button variant="text" startIcon={<HomeIcon />}>
+          <Button
+            variant="text"
+            startIcon={<HomeIcon />}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
+          >
             Home
           </Button>
           <Button
             onClick={changeBackgroundHandler}
             variant="contained"
             startIcon={<AddPhotoAlternateIcon />}
-            style={{ backgroundColor: "#403e3e" }}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
           >
             Change Background
           </Button>
@@ -222,6 +234,11 @@ function App() {
             variant="text"
             onClick={handleClearBoard}
             startIcon={<BoltIcon />}
+            style={{
+              backgroundColor: "rgb(245 241 241)",
+              color: "#494444",
+              opacity: "0.8",
+            }}
           >
             Clear Board
           </Button>
@@ -252,7 +269,7 @@ function App() {
               editClass="app_boards_add-board_edit"
               placeholder="Enter Board Name"
               text="Add Board"
-              buttonText="Add Board"
+              buttonText="Add List"
               onSubmit={addboardHandler}
             />
           </div>

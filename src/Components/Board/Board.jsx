@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Popover from "@mui/material/Popover";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Card from "../Card/Card";
@@ -38,7 +38,15 @@ function Board(props) {
 
   return (
     <div className="board">
-    <div className="board-wrapper">
+      <div className="board-wrapper">
+        <div className="board_header">
+          <p className="board_header_title">
+            {props.board?.title}
+            <span>{props.board?.cards?.length || 0}</span>
+          </p>
+          <div className="board_header_title_more">
+            <DeleteOutlineIcon className="dustbin" onClick={handleClick} />
+
 
       <div className="board_header">
         <p className="board_header_title">
@@ -66,28 +74,48 @@ function Board(props) {
               <button onClick={removeBoardHandler} className="dltbtn"> <DeleteIcon /> </button>
             </div>
           </Popover>
+
+            <Popover
+              id={popoverId}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              <div className="board_popover_content">
+                <p onClick={removeBoardHandler}>Delete Board</p>
+              </div>
+            </Popover>
+          </div>
+
         </div>
-      </div>
-      <div className="board_cards custom-scroll">
-        {props.board?.cards?.map((item) => (
-          <Card
-            key={item.id}
-            card={item}
-            boardId={props.board.id}
-            removeCard={props.removeCard}
-            dragEntered={props.dragEntered}
-            dragEnded={props.dragEnded}
-            updateCard={props.updateCard}
+        <div className="board_cards custom-scroll">
+          {props.board?.cards?.map((item) => (
+            <Card
+              key={item.id}
+              card={item}
+              boardId={props.board.id}
+              removeCard={props.removeCard}
+              dragEntered={props.dragEntered}
+              dragEnded={props.dragEnded}
+              updateCard={props.updateCard}
+            />
+          ))}
+          <Editable
+            text="+ Add Card"
+            placeholder="Enter Card Title"
+            displayClass="board_add-card"
+            editClass="board_add-card_edit"
+            onSubmit={addCardHandler}
           />
-        ))}
-        <Editable
-          text="+ Add Card"
-          placeholder="Enter Card Title"
-          displayClass="board_add-card"
-          editClass="board_add-card_edit"
-          onSubmit={addCardHandler}
-        />
-      </div>
+        </div>
       </div>
     </div>
   );
